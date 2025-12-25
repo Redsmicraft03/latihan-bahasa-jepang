@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Hiragana</title>
+    <title>Kuis Hiragana Bolak-Balik</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>Kuis Hiragana</h1>
-            <div class="controls">
-                <select id="levelSelect"></select>
-                <button id="resetBtn" class="btn-secondary">Ulang / Ganti Level</button>
+            <h1>Latihan Hiragana</h1>
+            
+            <div class="controls-wrapper">
+                <div class="settings-row">
+                    <div class="input-group">
+                        <label>Level</label>
+                        <select id="levelSelect"></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Mode</label>
+                        <select id="modeSelect">
+                            <option value="h_to_r">Hiragana ➔ Romaji</option>
+                            <option value="r_to_h">Romaji ➔ Hiragana</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="resetBtn" class="btn-secondary">Acak Ulang Soal</button>
             </div>
         </header>
 
@@ -21,7 +35,6 @@
             <h2>Hasil Kamu</h2>
             <div class="score-display">Nilai: <span id="scoreValue">0</span></div>
             <p>Benar: <span id="correctCount">0</span> | Salah: <span id="wrongCount">0</span></p>
-            <p class="note">Lihat koreksi di bawah kartu yang berwarna merah.</p>
         </div>
 
         <div id="quizContainer" class="quiz-grid">

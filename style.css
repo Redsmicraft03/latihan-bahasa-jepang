@@ -5,6 +5,7 @@ body {
     padding: 20px;
     display: flex;
     justify-content: center;
+    min-height: 100vh;
 }
 
 .container {
@@ -16,25 +17,48 @@ body {
     max-width: 600px;
 }
 
-header {
+header h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 0;
+    color: #333;
 }
 
-.controls {
+.controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.settings-row {
     display: flex;
     gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
+}
+
+.input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 4px;
 }
 
 select {
     padding: 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    width: 100%;
+    font-size: 0.95rem;
 }
 
-/* Grid untuk Kartu */
+/* Grid Kartu */
 .quiz-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -46,68 +70,66 @@ select {
     background: #fff;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
-    padding: 10px;
+    padding: 15px 10px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: transform 0.2s;
 }
 
-.hiragana {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 5px;
+.card:focus-within {
+    border-color: #0070f3;
+    transform: translateY(-2px);
 }
+
+.question-text {
+    font-weight: bold;
+    margin-bottom: 8px;
+    line-height: 1;
+}
+
+/* Jika soalnya Hiragana, font besar */
+.font-jp { font-size: 3rem; }
+/* Jika soalnya Romaji, font lebih kecil dikit */
+.font-romaji { font-size: 2rem; color: #444; }
 
 .card input {
-    width: 80%;
-    padding: 5px;
+    width: 85%;
+    padding: 8px;
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
-/* Style Feedback (Benar/Salah) */
-.card.correct {
-    border-color: #2ecc71;
-    background-color: #e8f8f0;
-}
-
-.card.wrong {
-    border-color: #e74c3c;
-    background-color: #fdeaea;
-}
+/* Feedback Styles */
+.card.correct { border-color: #2ecc71; background-color: #e8f8f0; }
+.card.wrong { border-color: #e74c3c; background-color: #fdeaea; }
 
 .correction-text {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #e74c3c;
-    margin-top: 5px;
+    margin-top: 8px;
     font-weight: bold;
+    background: rgba(255,255,255,0.7);
+    padding: 2px 5px;
+    border-radius: 4px;
 }
 
-/* Tombol */
 button {
     cursor: pointer;
     border: none;
-    padding: 10px 20px;
+    padding: 12px;
     border-radius: 6px;
     font-weight: bold;
     font-size: 1rem;
-}
-
-.btn-primary {
-    background-color: #0070f3;
-    color: white;
     width: 100%;
 }
 
-.btn-secondary {
-    background-color: #666;
-    color: white;
-}
+.btn-primary { background-color: #0070f3; color: white; }
+.btn-secondary { background-color: #666; color: white; }
 
-/* Hasil */
 .result-box {
     background: #eef2ff;
     border: 2px solid #0070f3;
@@ -116,13 +138,5 @@ button {
     text-align: center;
     margin-bottom: 20px;
 }
-
-.hidden {
-    display: none;
-}
-
-.score-display {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #0070f3;
-}
+.hidden { display: none; }
+.score-display { font-size: 1.5rem; font-weight: bold; color: #0070f3; }

@@ -13,6 +13,7 @@ const allLevels = [
 ];
 
 const levelSelect = document.getElementById('levelSelect');
+const modeSelect = document.getElementById('modeSelect');
 const quizContainer = document.getElementById('quizContainer');
 const finishBtn = document.getElementById('finishBtn');
 const resetBtn = document.getElementById('resetBtn');
@@ -26,56 +27,67 @@ allLevels.forEach((lvl, idx) => {
     levelSelect.appendChild(opt);
 });
 
-// Start Game
+// Event Listeners
 levelSelect.addEventListener('change', startQuiz);
+modeSelect.addEventListener('change', startQuiz); // Ganti mode langsung reset game
 resetBtn.addEventListener('click', startQuiz);
 finishBtn.addEventListener('click', finishQuiz);
 
 function startQuiz() {
-    // Reset Tampilan
     quizContainer.innerHTML = '';
     resultArea.classList.add('hidden');
     finishBtn.style.display = 'block';
     finishBtn.disabled = false;
     
     const currentLvlIdx = parseInt(levelSelect.value);
+    const mode = modeSelect.value; // 'h_to_r' atau 'r_to_h'
+    
     let questionPool = [];
     let questionCount = 0;
 
-    // --- LOGIKA PEMILIHAN SOAL ---
-    
-    // Level 1: Ambil 5 soal dari level ini saja
+    // Logika Pengambilan Soal (Sama seperti sebelumnya)
     if (currentLvlIdx === 0) {
         questionPool = [...allLevels[0].chars];
         questionCount = 5; 
-    } 
-    // Level 2: Ambil semua soal dari Level 1 & 2 (Total 10)
-    else if (currentLvlIdx === 1) {
+    } else if (currentLvlIdx === 1) {
         questionPool = [...allLevels[0].chars, ...allLevels[1].chars];
         questionCount = 10;
-    } 
-    // Level 3 ke atas: Ambil dari level skrg + semua level sebelumnya, target 15 soal
-    else {
-        // Gabungkan semua huruf dari level 0 sampai level yg dipilih
+    } else {
         for (let i = 0; i <= currentLvlIdx; i++) {
             questionPool = questionPool.concat(allLevels[i].chars);
         }
         questionCount = 15;
     }
 
-    // Acak urutan soal (Shuffle)
+    // Acak dan Potong
     questionPool.sort(() => Math.random() - 0.5);
-
-    // Potong sesuai jumlah yang diminta (misal pool ada 20, ambil 15 aja)
     const selectedQuestions = questionPool.slice(0, questionCount);
 
-    // Render ke HTML
-    selectedQuestions.forEach((q, index) => {
+    // Render Kartu
+    selectedQuestions.forEach((q) => {
         const card = document.createElement('div');
         card.className = 'card';
+        
+        let questionText, answerKey, placeholderText, fontClass;
+
+        // Cek Mode
+        if (mode === 'h_to_r') {
+            // Mode Biasa: Soal Hiragana -> Jawab Romaji
+            questionText = q.j;
+            answerKey = q.r;
+            placeholderText = "romaji...";
+            fontClass = "font-jp";
+        } else {
+            // Mode Balik: Soal Romaji -> Jawab Hiragana
+            questionText = q.r;
+            answerKey = q.j;
+            placeholderText = "hiragana...";
+            fontClass = "font-romaji";
+        }
+
         card.innerHTML = `
-            <div class="hiragana">${q.j}</div>
-            <input type="text" data-answer="${q.r}" autocomplete="off" placeholder="...">
+            <div class="question-text ${fontClass}">${questionText}</div>
+            <input type="text" data-answer="${answerKey}" autocomplete="off" placeholder="${placeholderText}" autocapitalize="none">
             <div class="correction-area"></div>
         `;
         quizContainer.appendChild(card);
@@ -88,39 +100,37 @@ function finishQuiz() {
     let total = inputs.length;
 
     inputs.forEach(input => {
-        const userAnswer = input.value.trim().toLowerCase();
+        // Ambil jawaban user & kunci jawaban
+        const userAnswer = input.value.trim().toLowerCase(); // lowercase biar 'Ka' dianggap sama dgn 'ka'
         const correctAnswer = input.dataset.answer;
+        
         const card = input.parentElement;
         const correctionArea = card.querySelector('.correction-area');
-
-        // Kunci input agar tidak bisa diedit lagi
         input.disabled = true;
 
         if (userAnswer === correctAnswer) {
             correct++;
             card.classList.add('correct');
-            // Jika benar, tidak perlu menampilkan teks tambahan (atau bisa dikasih centang)
         } else {
             card.classList.add('wrong');
             // Tampilkan jawaban yang benar
-            correctionArea.innerHTML = `<div class="correction-text">Salah! Jawaban: ${correctAnswer}</div>`;
+            correctionArea.innerHTML = `Salah! Jawabannya: ${correctAnswer}`;
         }
     });
 
     // Hitung Nilai
     const score = Math.round((correct / total) * 100);
 
-    // Tampilkan Hasil
+    // Update Tampilan Hasil
     document.getElementById('scoreValue').innerText = score;
     document.getElementById('correctCount').innerText = correct;
     document.getElementById('wrongCount').innerText = total - correct;
     
     resultArea.classList.remove('hidden');
-    finishBtn.style.display = 'none'; // Sembunyikan tombol selesai
+    finishBtn.style.display = 'none';
 
-    // Scroll ke atas agar user lihat nilai
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Jalankan saat pertama kali load
+// Jalankan saat pertama kali
 startQuiz();
