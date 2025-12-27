@@ -1,17 +1,38 @@
-// Data Hiragana Lengkap
+// Data Hiragana (h) & Katakana (k) & Romaji (r)
 const allLevels = [
-    { name: "Lvl 1 (A-O)", chars: [{j:'あ', r:'a'}, {j:'い', r:'i'}, {j:'う', r:'u'}, {j:'え', r:'e'}, {j:'お', r:'o'}] },
-    { name: "Lvl 2 (Ka-Ko)", chars: [{j:'か', r:'ka'}, {j:'き', r:'ki'}, {j:'く', r:'ku'}, {j:'け', r:'ke'}, {j:'こ', r:'ko'}] },
-    { name: "Lvl 3 (Sa-So)", chars: [{j:'さ', r:'sa'}, {j:'し', r:'shi'}, {j:'す', r:'su'}, {j:'せ', r:'se'}, {j:'そ', r:'so'}] },
-    { name: "Lvl 4 (Ta-To)", chars: [{j:'た', r:'ta'}, {j:'ち', r:'chi'}, {j:'つ', r:'tsu'}, {j:'て', r:'te'}, {j:'と', r:'to'}] },
-    { name: "Lvl 5 (Na-No)", chars: [{j:'な', r:'na'}, {j:'に', r:'ni'}, {j:'ぬ', r:'nu'}, {j:'ね', r:'ne'}, {j:'の', r:'no'}] },
-    { name: "Lvl 6 (Ha-Ho)", chars: [{j:'は', r:'ha'}, {j:'ひ', r:'hi'}, {j:'ふ', r:'fu'}, {j:'へ', r:'he'}, {j:'ほ', r:'ho'}] },
-    { name: "Lvl 7 (Ma-Mo)", chars: [{j:'ま', r:'ma'}, {j:'み', r:'mi'}, {j:'む', r:'mu'}, {j:'め', r:'me'}, {j:'も', r:'mo'}] },
-    { name: "Lvl 8 (Ya-Yo)", chars: [{j:'や', r:'ya'}, {j:'ゆ', r:'yu'}, {j:'よ', r:'yo'}] },
-    { name: "Lvl 9 (Ra-Ro)", chars: [{j:'ら', r:'ra'}, {j:'り', r:'ri'}, {j:'る', r:'ru'}, {j:'れ', r:'re'}, {j:'ろ', r:'ro'}] },
-    { name: "Lvl 10 (Wa-N)", chars: [{j:'わ', r:'wa'}, {j:'を', r:'wo'}, {j:'ん', r:'n'}] }
+    { name: "Lvl 1 (A-O)", chars: [
+        {h:'あ', k:'ア', r:'a'}, {h:'い', k:'イ', r:'i'}, {h:'う', k:'ウ', r:'u'}, {h:'え', k:'エ', r:'e'}, {h:'お', k:'オ', r:'o'}
+    ]},
+    { name: "Lvl 2 (Ka-Ko)", chars: [
+        {h:'か', k:'カ', r:'ka'}, {h:'き', k:'キ', r:'ki'}, {h:'く', k:'ク', r:'ku'}, {h:'け', k:'ケ', r:'ke'}, {h:'こ', k:'コ', r:'ko'}
+    ]},
+    { name: "Lvl 3 (Sa-So)", chars: [
+        {h:'さ', k:'サ', r:'sa'}, {h:'し', k:'シ', r:'shi'}, {h:'す', k:'ス', r:'su'}, {h:'せ', k:'セ', r:'se'}, {h:'そ', k:'ソ', r:'so'}
+    ]},
+    { name: "Lvl 4 (Ta-To)", chars: [
+        {h:'た', k:'タ', r:'ta'}, {h:'ち', k:'チ', r:'chi'}, {h:'つ', k:'ツ', r:'tsu'}, {h:'て', k:'テ', r:'te'}, {h:'と', k:'ト', r:'to'}
+    ]},
+    { name: "Lvl 5 (Na-No)", chars: [
+        {h:'な', k:'ナ', r:'na'}, {h:'に', k:'ニ', r:'ni'}, {h:'ぬ', k:'ヌ', r:'nu'}, {h:'ね', k:'ネ', r:'ne'}, {h:'の', k:'ノ', r:'no'}
+    ]},
+    { name: "Lvl 6 (Ha-Ho)", chars: [
+        {h:'は', k:'ハ', r:'ha'}, {h:'ひ', k:'ヒ', r:'hi'}, {h:'ふ', k:'フ', r:'fu'}, {h:'へ', k:'ヘ', r:'he'}, {h:'ほ', k:'ホ', r:'ho'}
+    ]},
+    { name: "Lvl 7 (Ma-Mo)", chars: [
+        {h:'ま', k:'マ', r:'ma'}, {h:'み', k:'ミ', r:'mi'}, {h:'む', k:'ム', r:'mu'}, {h:'め', k:'メ', r:'me'}, {h:'も', k:'モ', r:'mo'}
+    ]},
+    { name: "Lvl 8 (Ya-Yo)", chars: [
+        {h:'や', k:'ヤ', r:'ya'}, {h:'ゆ', k:'ユ', r:'yu'}, {h:'よ', k:'ヨ', r:'yo'}
+    ]},
+    { name: "Lvl 9 (Ra-Ro)", chars: [
+        {h:'ら', k:'ラ', r:'ra'}, {h:'り', k:'リ', r:'ri'}, {h:'る', k:'ル', r:'ru'}, {h:'れ', k:'レ', r:'re'}, {h:'ろ', k:'ロ', r:'ro'}
+    ]},
+    { name: "Lvl 10 (Wa-N)", chars: [
+        {h:'わ', k:'ワ', r:'wa'}, {h:'を', k:'ヲ', r:'wo'}, {h:'ん', k:'ン', r:'n'}
+    ]}
 ];
 
+const scriptSelect = document.getElementById('scriptSelect');
 const levelSelect = document.getElementById('levelSelect');
 const modeSelect = document.getElementById('modeSelect');
 const quizContainer = document.getElementById('quizContainer');
@@ -27,9 +48,10 @@ allLevels.forEach((lvl, idx) => {
     levelSelect.appendChild(opt);
 });
 
-// Event Listeners
+// Event Listeners (Semua dropdown akan mereset game)
+scriptSelect.addEventListener('change', startQuiz);
 levelSelect.addEventListener('change', startQuiz);
-modeSelect.addEventListener('change', startQuiz); // Ganti mode langsung reset game
+modeSelect.addEventListener('change', startQuiz);
 resetBtn.addEventListener('click', startQuiz);
 finishBtn.addEventListener('click', finishQuiz);
 
@@ -37,15 +59,15 @@ function startQuiz() {
     quizContainer.innerHTML = '';
     resultArea.classList.add('hidden');
     finishBtn.style.display = 'block';
-    finishBtn.disabled = false;
     
     const currentLvlIdx = parseInt(levelSelect.value);
-    const mode = modeSelect.value; // 'h_to_r' atau 'r_to_h'
+    const scriptType = scriptSelect.value; // 'h' (Hiragana) atau 'k' (Katakana)
+    const mode = modeSelect.value; // 'jp_to_romaji' atau 'romaji_to_jp'
     
     let questionPool = [];
     let questionCount = 0;
 
-    // Logika Pengambilan Soal (Sama seperti sebelumnya)
+    // Logika Pengambilan Soal (Leveling)
     if (currentLvlIdx === 0) {
         questionPool = [...allLevels[0].chars];
         questionCount = 5; 
@@ -59,7 +81,7 @@ function startQuiz() {
         questionCount = 15;
     }
 
-    // Acak dan Potong
+    // Acak & Potong
     questionPool.sort(() => Math.random() - 0.5);
     const selectedQuestions = questionPool.slice(0, questionCount);
 
@@ -70,18 +92,21 @@ function startQuiz() {
         
         let questionText, answerKey, placeholderText, fontClass;
 
-        // Cek Mode
-        if (mode === 'h_to_r') {
-            // Mode Biasa: Soal Hiragana -> Jawab Romaji
-            questionText = q.j;
+        // Tentukan apa yang ditampilkan dan apa kuncinya
+        // scriptType = 'h' atau 'k'
+        // q.h = Hiragana, q.k = Katakana, q.r = Romaji
+
+        if (mode === 'jp_to_romaji') {
+            // Soal: Huruf Jepang (sesuai pilihan script) -> Jawab: Romaji
+            questionText = (scriptType === 'h') ? q.h : q.k;
             answerKey = q.r;
             placeholderText = "romaji...";
             fontClass = "font-jp";
         } else {
-            // Mode Balik: Soal Romaji -> Jawab Hiragana
+            // Soal: Romaji -> Jawab: Huruf Jepang (sesuai pilihan script)
             questionText = q.r;
-            answerKey = q.j;
-            placeholderText = "hiragana...";
+            answerKey = (scriptType === 'h') ? q.h : q.k;
+            placeholderText = (scriptType === 'h') ? "hiragana..." : "katakana...";
             fontClass = "font-romaji";
         }
 
@@ -100,12 +125,11 @@ function finishQuiz() {
     let total = inputs.length;
 
     inputs.forEach(input => {
-        // Ambil jawaban user & kunci jawaban
-        const userAnswer = input.value.trim().toLowerCase(); // lowercase biar 'Ka' dianggap sama dgn 'ka'
+        const userAnswer = input.value.trim().toLowerCase(); // lowercase untuk romaji
         const correctAnswer = input.dataset.answer;
-        
         const card = input.parentElement;
         const correctionArea = card.querySelector('.correction-area');
+        
         input.disabled = true;
 
         if (userAnswer === correctAnswer) {
@@ -113,15 +137,12 @@ function finishQuiz() {
             card.classList.add('correct');
         } else {
             card.classList.add('wrong');
-            // Tampilkan jawaban yang benar
-            correctionArea.innerHTML = `Salah! Jawabannya: ${correctAnswer}`;
+            correctionArea.innerHTML = `<div class="correction-text">Salah! Jawab: ${correctAnswer}</div>`;
         }
     });
 
-    // Hitung Nilai
     const score = Math.round((correct / total) * 100);
 
-    // Update Tampilan Hasil
     document.getElementById('scoreValue').innerText = score;
     document.getElementById('correctCount').innerText = correct;
     document.getElementById('wrongCount').innerText = total - correct;
@@ -132,5 +153,5 @@ function finishQuiz() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Jalankan saat pertama kali
+// Start
 startQuiz();

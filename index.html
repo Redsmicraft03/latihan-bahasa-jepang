@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Hiragana Bolak-Balik</title>
+    <title>Kuis Jepang Lengkap</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>Latihan Hiragana</h1>
+            <h1>Latihan Bahasa Jepang</h1>
             
             <div class="controls-wrapper">
-                <div class="settings-row">
+                <div class="settings-grid">
+                    <div class="input-group">
+                        <label>Huruf</label>
+                        <select id="scriptSelect">
+                            <option value="h">Hiragana (あ)</option>
+                            <option value="k">Katakana (ア)</option>
+                        </select>
+                    </div>
                     <div class="input-group">
                         <label>Level</label>
                         <select id="levelSelect"></select>
@@ -21,8 +28,8 @@
                     <div class="input-group">
                         <label>Mode</label>
                         <select id="modeSelect">
-                            <option value="h_to_r">Hiragana ➔ Romaji</option>
-                            <option value="r_to_h">Romaji ➔ Hiragana</option>
+                            <option value="jp_to_romaji">Jepang ➔ Romaji</option>
+                            <option value="romaji_to_jp">Romaji ➔ Jepang</option>
                         </select>
                     </div>
                 </div>
@@ -37,8 +44,7 @@
             <p>Benar: <span id="correctCount">0</span> | Salah: <span id="wrongCount">0</span></p>
         </div>
 
-        <div id="quizContainer" class="quiz-grid">
-            </div>
+        <div id="quizContainer" class="quiz-grid"></div>
 
         <div class="action-area">
             <button id="finishBtn" class="btn-primary">Selesai & Cek Nilai</button>
